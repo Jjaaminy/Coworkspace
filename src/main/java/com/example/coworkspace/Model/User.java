@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 
 @Entity
-@Table(name="user")
+@Table(name="users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,10 +16,14 @@ public class User {
 
     @Column(name = "lastname")
     private String lastname;
-    @Column(name = "mail")
+    @Column(name = "email")
     private String mail;
     @Column(name = "password")
     private String password;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
 
     public Long getId() {
@@ -59,6 +63,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
 

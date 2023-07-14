@@ -9,5 +9,4 @@ public class CoworkspaceApplication {
     public static void main(String[] args) {
         SpringApplication.run(CoworkspaceApplication.class, args);
     }
-
 }
