@@ -11,28 +11,24 @@ import java.util.List;
 public class UserService  {
 
     private final UserRepo userRepo;
+    private final RoleRepo roleRepo;
 
-    private RoleRepo roleRepo;
-
+    @Autowired
     public UserService(UserRepo userRepo, RoleRepo roleRepo) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
     }
 
-    /*
-    public class loadUserByUsername(String email) {
-        User user = userRepo.findByEmail(email);
-        if (user == null) {
-            return "Invalid email or password." ;
-        }else{
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                getAuthorities(user.getRole())
-        );
+    public void assignAdmin() {
+        List<User> regularUsers = userRepo.findAll();
+        if (!regularUsers.isEmpty()) {
+            User firstUser = regularUsers.get(0);
+            Role adminRole = roleRepo.findByName(Role.RoleType.ADMIN); // Assuming you have a role repository to retrieve the "ADMIN" role
+            firstUser.setRole(adminRole);
+            userRepo.save(firstUser);
+        }
     }
 
-     */
     public void registerUser(User user) {
         if (userRepo.count() == 1) {
             Role admin = roleRepo.findByName(Role.RoleType.ADMIN);
@@ -48,4 +44,6 @@ public class UserService  {
         Role adminRole = roleRepo.findByName(Role.RoleType.ADMIN);
         return userRepo.findByRoleNot(adminRole);
     }
+
+
 }

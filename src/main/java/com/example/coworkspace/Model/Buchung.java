@@ -17,7 +17,7 @@ public class Buchung {
     private Long id;
 
     @Column(name="bookingstate")
-    Boolean state;
+    private Boolean state;
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @Column(nullable = false)
@@ -27,6 +27,18 @@ public class Buchung {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @Column(nullable = false)
     private LocalDateTime checkOut;
+
+
+    public Buchung(Long id, Boolean state, LocalDateTime checkIn, LocalDateTime checkOut) {
+        this.id = id;
+        this.state = state;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+    }
+
+    public Buchung() {
+
+    }
 
     public Long getId() {
         return id;

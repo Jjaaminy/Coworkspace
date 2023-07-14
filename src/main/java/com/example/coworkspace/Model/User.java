@@ -7,6 +7,7 @@ import java.util.ArrayList;
 @Entity
 @Table(name="users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,12 +17,12 @@ public class User {
 
     @Column(name = "lastname")
     private String lastname;
-    @Column(name = "email")
+    @Column(name = "mail")
     private String mail;
     @Column(name = "password")
     private String password;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 

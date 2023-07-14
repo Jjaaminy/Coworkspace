@@ -1,10 +1,16 @@
 package com.example.coworkspace.Controller;
 
 import com.example.coworkspace.Model.Buchung;
+import com.example.coworkspace.Model.Role;
+import com.example.coworkspace.Model.User;
 import com.example.coworkspace.Services.BuchungRepo;
+import com.example.coworkspace.Services.BuchungService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +19,8 @@ import java.util.List;
 public class BookingController {
 
     private BuchungRepo brepo;
+    private BuchungService service;
+    public  ArrayList<Buchung> bookingreq;
     private ArrayList<Buchung> blist;
 
     @Autowired
@@ -20,15 +28,51 @@ public class BookingController {
         this.brepo = repo;
     }
 
+
+    //MItglied kann Buchung erstellen
     @PostMapping
-    public ResponseEntity<Buchung> createBooking(@RequestBody Buchung booking) {
-        Buchung savedBooking = brepo.save(booking);
-        return ResponseEntity.ok(savedBooking);
+    public ResponseEntity<Buchung> createBooking(@RequestBody Buchung booking, Authentication authentication) {
+        User currentUser = (User) authentication.getPrincipal();
+        Role.RoleType userRole = currentUser.getRole().getName();
+
+        if (userRole == Role.RoleType.REGULAR_USER) {
+            Buchung savedBooking = brepo.save(booking);
+            bookingreq.add(booking);
+            return ResponseEntity.ok(savedBooking);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
-    @GetMapping
+    //Admin kann Buchung akzeptieren oder ablehnen
+    @PostMapping("/bookings/buchungstate")
+    public ResponseEntity<Buchung> bookingstate(@RequestBody Buchung booking, Authentication authentication) {
+        User currentUser = (User) authentication.getPrincipal();
+        Role.RoleType userRole = currentUser.getRole().getName();
+        if (userRole == Role.RoleType.ADMIN) {
+            if (booking.getState() != null && booking.getState()) {
+                booking.setState(true);
+            } else {
+                booking.setState(false);
+            }
+            Buchung savedBooking = brepo.save(booking);
+            bookingreq.add(booking);
+            return ResponseEntity.ok(savedBooking);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+    //alle buchungen bekommen
+    @GetMapping("/bookings")
     public ResponseEntity<List<Buchung>> getAllBookings() {
-        List<Buchung> bookings = (List<Buchung>) brepo.findAll();
+        List<Buchung> bookings =service.getAllBookings();
         return ResponseEntity.ok(bookings);
     }
+
+
+
+
+
+
+
 }

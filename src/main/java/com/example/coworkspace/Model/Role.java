@@ -2,8 +2,9 @@ package com.example.coworkspace.Model;
 
 import jakarta.persistence.*;
 
-public enum Role {
-    ;
+@Entity
+@Table(name="role")
+public class Role {
 
     public enum RoleType {
         ADMIN, REGULAR_USER
@@ -33,3 +34,4 @@ public enum Role {
         this.name = name;
     }
 }
+
