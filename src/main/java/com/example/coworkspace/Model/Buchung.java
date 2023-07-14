@@ -16,6 +16,9 @@ public class Buchung {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User User;
     @Column(name="bookingstate")
     private Boolean state;
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
 
 
 import java.util.ArrayList;
@@ -21,8 +20,6 @@ public class BookingController {
     private BuchungRepo brepo;
     private BuchungService service;
     public  ArrayList<Buchung> bookingreq;
-    private ArrayList<Buchung> blist;
-
     @Autowired
     public BookingController(BuchungRepo repo) {
         this.brepo = repo;
@@ -31,9 +28,8 @@ public class BookingController {
 
     //MItglied kann Buchung erstellen
     @PostMapping
-    public ResponseEntity<Buchung> createBooking(@RequestBody Buchung booking, Authentication authentication) {
-        User currentUser = (User) authentication.getPrincipal();
-        Role.RoleType userRole = currentUser.getRole().getName();
+    public ResponseEntity<Buchung> createBooking(@RequestBody Buchung booking,User user) {
+        Role.RoleType userRole = user.getRole().getName();
 
         if (userRole == Role.RoleType.REGULAR_USER) {
             Buchung savedBooking = brepo.save(booking);
@@ -46,9 +42,8 @@ public class BookingController {
 
     //Admin kann Buchung akzeptieren oder ablehnen
     @PostMapping("/bookings/buchungstate")
-    public ResponseEntity<Buchung> bookingstate(@RequestBody Buchung booking, Authentication authentication) {
-        User currentUser = (User) authentication.getPrincipal();
-        Role.RoleType userRole = currentUser.getRole().getName();
+    public ResponseEntity<Buchung> bookingstate(@RequestBody Buchung booking, User user) {
+        Role.RoleType userRole = user.getRole().getName();
         if (userRole == Role.RoleType.ADMIN) {
             if (booking.getState() != null && booking.getState()) {
                 booking.setState(true);

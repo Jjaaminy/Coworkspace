@@ -22,6 +22,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name="userstate")
+    private Boolean state;
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -72,6 +74,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
     }
 }
 

@@ -19,6 +19,10 @@ public class Buchungsanfrage {
     @ManyToOne
     @JoinColumn(name = "user_id")
     User User;
+
+    @ManyToOne
+    @JoinColumn(name = "booking_id")
+    Buchung booking;
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @Column(name = "checkin")
@@ -44,8 +48,6 @@ public class Buchungsanfrage {
     public void setUser(com.example.coworkspace.Model.User User) {
         this.User = User;
     }
-
-
 
    public LocalDateTime getCheckIn() {
         return checkIn;
