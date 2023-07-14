@@ -43,6 +43,7 @@ public class Buchung {
 
     }
 
+
     public Long getId() {
         return id;
     }

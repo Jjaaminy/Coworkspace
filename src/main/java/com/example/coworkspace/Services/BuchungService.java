@@ -17,4 +17,9 @@ public class BuchungService {
     public List<Buchung> getAllBookings() {
         return (List<Buchung>) repo.findAll();
     }
+
+
+    public void book(Buchung buchung) {
+        repo.save(buchung);
+    }
 }

@@ -58,7 +58,6 @@ public class UserController {
         }
     }
 
-
     //admin
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
