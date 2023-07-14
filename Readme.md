@@ -1,14 +1,14 @@
-#Coworking Space
+Coworking Space
 ----------------------
-##Dies ist eine kleine Backend Applikation für ein Coworking space Buchung.
+Dies ist eine kleine Backend Applikation für ein Coworking space Buchung.
 es können...
-...Mitglieder erstellt werden
-...Buchungen vorgenommen werden
-...Mitglieder verwalten
-...Buchungen verwalten
+...Mitglieder erstellt werden <br>
+...Buchungen vorgenommen werden <br>
+...Mitglieder verwalten <br>
+...Buchungen verwalten <br>
 
 ---------------------------------
-##Aufbau
+Aufbau
 1. Stellen Sie ein Docker Conatainer für Mysql auf. 
 2. Forken Sie das Projekt und stellen sie eine Datenbankverbindung her.
 3. Passen sie ihre Application.properties ab:
@@ -20,6 +20,6 @@ es können...
       spring.jpa.hibernate.ddl-auto=update
       spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
-##Starten
+Starten
 Nun können sie die Applikation starten indem sie die CoworkSpaceApplication laufen lassen
 
